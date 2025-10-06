@@ -26,7 +26,7 @@ Bij het aanmaken van een nieuwe repository gelden enkele belangrijke richtlijnen
 
 **Naamgeving**: Elke repository moet een naam hebben die de inhoud duidelijk weergeeft. Vermijd cryptische afkortingen en kies voor namen die ook voor anderen begrijpelijk zijn.
 
-**Documentatie**: Minimaal moet de "About" sectie van de repository ingevuld worden met een korte beschrijving van het doel en de inhoud van het project. Dit helpt anderen om snel te begrijpen waar het project over gaat.
+**Documentatie**: Minimaal moet de "About" sectie van de repository ingevuld worden met een korte beschrijving van het doel en de inhoud van het project. In de README of About sectie moet duidelijk worden aangegeven welk vak het betreft en wat het specifieke doel van de repository is. Dit helpt anderen om snel te begrijpen waar het project over gaat en in welke onderwijscontext het past.
 
 **Zichtbaarheid en Strategie**: De docent bepaalt zelf of een repository private of public wordt gemaakt, afhankelijk van de aard van het project en eventuele gevoelige informatie. Daarnaast kan de docent een branching strategie implementeren die past bij de werkwijze van het specifieke project.
 
