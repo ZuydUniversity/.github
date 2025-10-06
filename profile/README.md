@@ -21,6 +21,15 @@ Voor studentprojecten hanteren we een duidelijke werkwijze die afhangt van het t
 
 **Individuele opdrachten**: Voor individuele werkzaamheden maken studenten een fork van de originele repository naar hun eigen GitHub omgeving. Dit geeft hen de vrijheid om zelfstandig te werken zonder invloed op het originele project of de werk van medestudenten.
 
+### Repository Richtlijnen
+Bij het aanmaken van een nieuwe repository gelden enkele belangrijke richtlijnen om de organisatie overzichtelijk en professioneel te houden:
+
+**Naamgeving**: Elke repository moet een naam hebben die de inhoud duidelijk weergeeft. Vermijd cryptische afkortingen en kies voor namen die ook voor anderen begrijpelijk zijn.
+
+**Documentatie**: Minimaal moet de "About" sectie van de repository ingevuld worden met een korte beschrijving van het doel en de inhoud van het project. Dit helpt anderen om snel te begrijpen waar het project over gaat.
+
+**Zichtbaarheid en Strategie**: De docent bepaalt zelf of een repository private of public wordt gemaakt, afhankelijk van de aard van het project en eventuele gevoelige informatie. Daarnaast kan de docent een branching strategie implementeren die past bij de werkwijze van het specifieke project.
+
 ## Repository Workflow
 
 ```mermaid
