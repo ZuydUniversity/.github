@@ -2,41 +2,24 @@
 
 Welkom bij de GitHub organisatie van de Academie ICT van Zuyd Hogeschool. Deze organisatie dient als centrale hub voor alle softwareontwikkelingsprojecten, onderwijsmaterialen en samenwerkingsplatforms binnen onze academie.
 
-
-## Rechtenstructuur
-
-### Organisatie niveau
-
-#### Admins (owner) 
-- Rob
-- Viktor
-
-De admins zijn verantwoordelijk voor de inrichting, het onderhoud en het beantwoorden van technische vragen betreffende de GitHub organisatie.
-
-#### Members
-- Docenten ICT Academie
-
-Docenten mogen repositories aanmaken voor vakken, studentgroepen en projecten binnen de organisatie. Rechten op repository niveau worden door de betreffende docent ingedeeld op basis van de specifieke vereisten van het project of de cursus. Wil je member worden neem dan contact op met één van de beheerders.
-
-#### Outside collaborators
-- Studenten
-- Externen
-
-Outside collaborators hebben in principe geen rechten binnen de organisatie zelf, maar kunnen wel toegang krijgen tot specifieke repositories waar ze zijn toegevoegd.
+Als onderdeel van de ICT Academie faciliteren we hier het onderwijs en de samenwerking tussen docenten, studenten en externe partners. Alle repositories die gebruikt worden voor onderwijsprojecten, samenwerkingsprojecten, open source initiatieven en onderzoeks- en ontwikkelingsprojecten vinden hier hun plaats.
 
 ## Repositories
 
-Docenten kunnen repositories aanmaken voor verschillende doeleinden binnen de academie:
+Binnen onze organisatie maken we onderscheid tussen verschillende soorten repositories, elk met hun eigen doel en beheerstructuur.
 
 ### Software voor Bedrijfsvoering
-Repositories voor software die gebruikt wordt voor de bedrijfsvoering van de academie.
+Voor software die gebruikt wordt voor de dagelijkse bedrijfsvoering van de academie, worden repositories aangemaakt die door docenten beheerd worden. Deze repositories bevatten vaak kritieke systemen en tools die de academie ondersteunt.
 
-### Voorbeeldprojecten
-Repositories met voorbeeldcode of opdrachtcode die dienen als referentie en leermateriaal voor studenten.
+### Voorbeeldprojecten en Cursusmateriaal
+Docenten kunnen repositories aanmaken die dienen als voorbeeldcode of opdrachtcode voor studenten. Deze repositories fungeren als referentie en leermateriaal, waardoor studenten kunnen zien hoe bepaalde concepten geïmplementeerd worden en kunnen leren van bestaande codevoorbeelden.
 
 ### Studentprojecten
-- **Groepsprojecten**: Wanneer meerdere studenten aan een opdracht werken, werken ze binnen de ZuydUniversity organisatie met specifieke rechten op de betreffende repository.
-- **Individuele opdrachten**: Voor individuele opdrachten kunnen studenten een fork aanmaken naar hun eigen GitHub omgeving om zelfstandig te werken.
+Voor studentprojecten hanteren we een duidelijke werkwijze die afhangt van het type opdracht:
+
+**Groepsprojecten**: Wanneer meerdere studenten samenwerken aan een opdracht, wordt er binnen de ZuydUniversity organisatie gewerkt. Studenten krijgen specifieke rechten op de betreffende repository, zodat ze effectief kunnen samenwerken terwijl de docent overzicht houdt.
+
+**Individuele opdrachten**: Voor individuele werkzaamheden maken studenten een fork van de originele repository naar hun eigen GitHub omgeving. Dit geeft hen de vrijheid om zelfstandig te werken zonder invloed op het originele project of de werk van medestudenten.
 
 ## Repository Workflow
 
@@ -76,21 +59,32 @@ flowchart TD
     style O fill:#ffebee,color:#000000
 ```
 
-## Archivering
+## Rechten en Toegang
 
-### Automatische Archivering
-Repositories met 1,5 jaar geen activiteit worden automatisch gearchiveerd.
+De organisatie hanteert een gestructureerde benadering voor toegangsbeheer, waarbij verschillende rollen verschillende verantwoordelijkheden hebben.
 
-### Persoonlijke Repositories
-Persoonlijke repositories (die zijn geforked) zijn aan de gebruiker zelf te archiveren.
+### Administratoren
+Rob en Viktor fungeren als eigenaren van de organisatie en zijn verantwoordelijk voor de inrichting, het onderhoud en het beantwoorden van technische vragen. Zij zorgen ervoor dat de organisatie optimaal functioneert en ondersteunen gebruikers bij complexere technische uitdagingen.
 
-### Verwijdering
-Repositories die niet aan de voorwaarden voldoen worden verwijderd. Dit betreft bijvoorbeeld:
-- Individueel werk dat niet in de organisatie thuishoort
-- Projecten die niet gerelateerd zijn aan de academie
+### Docenten
+Docenten hebben member-rechten binnen de organisatie en mogen repositories aanmaken voor vakken, studentgroepen en projecten. Zij bepalen de rechten op repository niveau op basis van de specifieke vereisten van hun project of cursus. Wil je als docent member worden van de organisatie? Neem dan contact op met één van de beheerders.
 
-### Member Archivering
-Oude werknemers en studenten die niet meer nodig zijn worden uit repositories verwijderd:
-- Reguliere controle of ze niet meer ingeschreven staan bij de academie
-- Verwijdering van toegang tot repositories waar ze niet meer actief aan werken
+### Studenten en Externen
+Studenten en externe partijen worden toegevoegd als outside collaborators. Dit betekent dat zij geen organisatie-brede rechten hebben, maar wel toegang kunnen krijgen tot specifieke repositories waar ze zijn toegevoegd. Deze aanpak zorgt voor een veilige omgeving waarbij alleen relevante toegang wordt verleend.
+
+## Archivering en Onderhoud
+
+Om de organisatie overzichtelijk en actueel te houden, hanteren we een duidelijk archiveringsbeleid.
+
+### Automatische Repository Archivering
+Repositories die gedurende 1,5 jaar geen activiteit vertonen, worden automatisch gearchiveerd. Dit houdt de actieve projectenlijst overzichtelijk en zorgt ervoor dat verouderde projecten niet in de weg staan van actuele ontwikkelingen.
+
+### Persoonlijke Verantwoordelijkheid
+Voor repositories die studenten hebben geforkt naar hun eigen omgeving geldt dat zij zelf verantwoordelijk zijn voor het archiveren. Deze persoonlijke repositories vallen buiten het automatische archiveringsbeleid van de organisatie.
+
+### Repository Verwijdering
+Repositories die niet voldoen aan de organisatievoorwaarden worden verwijderd. Dit betreft bijvoorbeeld individueel werk dat niet thuishoort in de organisatie of projecten die geen relatie hebben met de academie. Deze maatregel zorgt ervoor dat de organisatie gefocust blijft op haar onderwijsdoelstellingen.
+
+### Gebruikerstoegang Beheer
+Regelmatig wordt gecontroleerd of voormalige werknemers en studenten nog toegang hebben tot repositories. Wanneer personen niet meer ingeschreven staan bij de academie of niet meer actief zijn binnen projecten, wordt hun toegang ingetrokken. Dit proces waarborgt de veiligheid en actualiteit van onze samenwerkingsomgeving.
 
