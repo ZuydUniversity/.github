@@ -34,7 +34,7 @@ flowchart TD
     C -->|Onderwijs| F[ZuydUniversity Repo<br/>Voorbeeldproject]
     C -->|Vak/Cursus| G[ZuydUniversity Repo<br/>Cursusmateriaal]
     
-    D -->|Individueel| H[Student forkt naar<br/>eigen omgeving]
+    D -->|Individueel| H[Student maakt eigen repo of forkt naar<br/>eigen omgeving]
     D -->|Groepswerk| I[ZuydUniversity Repo<br/>met groepsrechten]
     
     E --> J[Docent beheert rechten]
