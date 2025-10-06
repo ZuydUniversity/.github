@@ -42,10 +42,10 @@ Repositories met voorbeeldcode of opdrachtcode die dienen als referentie en leer
 
 ```mermaid
 flowchart TD
-    A[Nieuw Project] --> B{Wie gaat werken?}
+    A[Nieuw Project] --> B{Wie gaat werken}
     
-    B -->|Docent| C{Type Project?}
-    B -->|Student(en)| D{Individueel of Groep?}
+    B -->|Docent| C{Type Project}
+    B -->|Studenten| D{Individueel of Groep}
     
     C -->|Bedrijfsvoering| E[ZuydUniversity Repo<br/>Software Bedrijfsvoering]
     C -->|Onderwijs| F[ZuydUniversity Repo<br/>Voorbeeldproject]
@@ -67,13 +67,13 @@ flowchart TD
     L --> N[Automatische archivering]
     M --> O[Student archiveert zelf]
     
-    style E fill:#e1f5fe
-    style F fill:#e1f5fe
-    style G fill:#e1f5fe
-    style I fill:#e1f5fe
-    style H fill:#fff3e0
-    style N fill:#ffebee
-    style O fill:#ffebee
+    style E fill:#e1f5fe,color:#000000
+    style F fill:#e1f5fe,color:#000000
+    style G fill:#e1f5fe,color:#000000
+    style I fill:#e1f5fe,color:#000000
+    style H fill:#fff3e0,color:#000000
+    style N fill:#ffebee,color:#000000
+    style O fill:#ffebee,color:#000000
 ```
 
 ## Archivering
