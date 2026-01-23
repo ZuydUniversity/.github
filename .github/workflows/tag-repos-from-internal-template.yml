@@ -22,7 +22,7 @@ jobs:
           OWNER: ${{ github.repository_owner }}
         run: |
           # Get all repos in the organization (public, private, and internal)
-          repos=$(gh repo list "$OWNER" --limit 1000 --json nameWithOwner)
+          repos=$(gh repo list $OWNER --limit 1000 --json nameWithOwner;)
           
           echo "DEBUG: OWNER = $OWNER"
           echo "DEBUG: repos output:"
@@ -49,11 +49,11 @@ jobs:
                   --method PUT \
                   -H "Accept: application/vnd.github+json" \
                   "/repos/$repo/topics" \
-                    --input - <<'EOF'
-                {
-                "names": ["keep", "internal"]
-                }
-                EOF
+                  --input - <<EOF
+              {
+              "names": ["keep","internal"]
+              }
+              EOF
               else
                 echo "Topics already present on $repo"
               fi
