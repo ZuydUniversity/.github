@@ -24,18 +24,13 @@ jobs:
           # Get all repos in the organization (public, private, and internal)
           repos=$(gh repo list $OWNER --limit 1000 --json nameWithOwner;)
           
-          echo "DEBUG: OWNER = $OWNER"
-          echo "DEBUG: repos output:"
-          echo "$repos"
           echo "DEBUG: repo count = $(echo "$repos" | jq 'length')"
           
           echo "Checking repos for template-internal origin..."
           
           echo "$repos" | jq -r '.[].nameWithOwner' | while read repo; do
-            echo "DEBUG: Processing repo: $repo"
             # Check if repo was created from template-internal
             template=$(gh api "repos/$repo" --jq '.template_repository.name' 2>/dev/null || echo "null")
-            echo "DEBUG: template = $template"
             
             if [ "$template" = "template-internal" ]; then
               echo "Found repo created from template-internal: $repo"
