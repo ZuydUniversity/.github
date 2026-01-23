@@ -22,12 +22,7 @@ jobs:
           OWNER: ${{ github.repository_owner }}
         run: |
           # Get all repos in the organization (public, private, and internal)
-          repos=$(
-            (gh repo list $OWNER --limit 1000 --visibility public --json nameWithOwner; \
-             gh repo list $OWNER --limit 1000 --visibility private --json nameWithOwner; \
-             gh repo list $OWNER --limit 1000 --visibility internal --json nameWithOwner) | \
-            jq -s 'add | unique_by(.nameWithOwner)'
-          )
+          repos=$(gh repo list $OWNER --limit 1000 --visibility private --json nameWithOwner;)
           
           echo "DEBUG: OWNER = $OWNER"
           echo "DEBUG: repos output:"
