@@ -18,16 +18,11 @@ jobs:
 
       - name: Tag repos created from template-internal
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.ADD_TOPCIS_TO_OTHER_REPOS_TOKEN }}
           OWNER: ${{ github.repository_owner }}
         run: |
           # Get all repos in the organization (public, private, and internal)
-          repos=$(
-            (gh repo list $OWNER --limit 1000 --visibility public --json nameWithOwner; \
-             gh repo list $OWNER --limit 1000 --visibility private --json nameWithOwner; \
-             gh repo list $OWNER --limit 1000 --visibility internal --json nameWithOwner) | \
-            jq -s 'add | unique_by(.nameWithOwner)'
-          )
+          repos=$(gh repo list "$OWNER" --limit 1000 --json nameWithOwner)
           
           echo "DEBUG: OWNER = $OWNER"
           echo "DEBUG: repos output:"
