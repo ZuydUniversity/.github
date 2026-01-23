@@ -1,0 +1,50 @@
+name: Tag repositories created from template-internal
+
+on:
+  schedule:
+    - cron: '0 0 * * *' 
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tag-repos:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Tag repos created from template-internal
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OWNER: ${{ github.repository_owner }}
+        run: |
+          # Get all repos in the organization
+          repos=$(gh repo list $OWNER --limit 1000 --json nameWithOwner)
+          
+          echo "Checking repos for template-internal origin..."
+          
+          echo "$repos" | jq -r '.[].nameWithOwner' | while read repo; do
+            # Check if repo was created from template-internal
+            template=$(gh api "repos/$repo" --jq '.template_repository.name' 2>/dev/null || echo "null")
+            
+            if [ "$template" = "template-internal" ]; then
+              echo "Found repo created from template-internal: $repo"
+              
+              # Check if already has 'keep' topic to avoid redundant API calls
+              current_topics=$(gh api "repos/$repo/topics" --jq '.names | join(",")' 2>/dev/null || echo "")
+              
+              if [[ ! "$current_topics" =~ "keep" ]]; then
+                echo "Adding topics to $repo"
+                gh api \
+                  --method PUT \
+                  -H "Accept: application/vnd.github+json" \
+                  "/repos/$repo/topics" \
+                  -f names='["keep","internal"]'
+              else
+                echo "Topics already present on $repo"
+              fi
+            fi
+          done
