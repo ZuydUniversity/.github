@@ -49,7 +49,11 @@ jobs:
                   --method PUT \
                   -H "Accept: application/vnd.github+json" \
                   "/repos/$repo/topics" \
-                  -F names='["keep","internal"]'
+                    --input - <<'EOF'
+                {
+                "names": ["keep", "internal"]
+                }
+                EOF
               else
                 echo "Topics already present on $repo"
               fi
