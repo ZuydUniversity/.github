@@ -21,7 +21,18 @@ jobs:
           GH_TOKEN: ${{ secrets.ADD_TOPCIS_TO_OTHER_REPOS_TOKEN }}
           OWNER: ${{ github.repository_owner }}
           TEMPLATE_REPO: template-internal
+          RULESET_NAME: Default branch protection
         run: |
+          set -e
+
+          # Get the ruleset ID for "Default branch protection"
+          RULESET_ID=$(gh api /orgs/$OWNER/code-security/rulesets --jq ".[] | select(.name==\"$RULESET_NAME\") | .id")
+          if [ -z "$RULESET_ID" ]; then
+            echo "ERROR: Could not find ruleset '$RULESET_NAME'"
+            exit 1
+          fi
+          echo "Using ruleset ID: $RULESET_ID"
+
           # Fetch all repos in the organization
           repos=$(gh repo list $OWNER --limit 1000 --json nameWithOwner,id)
 
@@ -48,18 +59,13 @@ jobs:
               # -------------------
               # Assign ruleset
               # -------------------
-              RULESET_NAME="Default branch protection"
-              RULESET_ID=$(gh api /orgs/$OWNER/code-security/rulesets --jq '.[] | select(.name=="Default branch protection") | .id')
-
               echo "Checking if $repo is already in ruleset $RULESET_NAME"
-              existing_repo_ids=$(gh api "/orgs/$OWNER/code-security/rulesets/$RULESET_ID" --jq '.repository_ids | join(",")')
-
+              existing_repo_ids=$(gh api "/orgs/$OWNER/code-security/rulesets/$RULESET_ID/repositories" --jq '.[].id | tostring' | paste -sd "," -)
+              
               if [[ ! ",$existing_repo_ids," =~ ",$repo_id," ]]; then
                 echo "Adding $repo to ruleset $RULESET_NAME"
-                # Append repo ID to ruleset
-                new_repo_ids="$existing_repo_ids,$repo_id"
-                gh api --method PATCH -H "Accept: application/vnd.github+json" "/orgs/$OWNER/code-security/rulesets/$RULESET_ID" --input - <<EOF
-          {"repository_ids": [$new_repo_ids]}
+                gh api --method POST -H "Accept: application/vnd.github+json" "/orgs/$OWNER/code-security/rulesets/$RULESET_ID/repositories" --input - <<EOF
+          {"repository_id": $repo_id}
           EOF
               else
                 echo "$repo is already in ruleset $RULESET_NAME, skipping"
