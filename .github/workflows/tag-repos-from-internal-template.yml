@@ -16,26 +16,33 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Tag repos created from template-internal
+      - name: Tag repos and copy branch protection rules
         env:
           GH_TOKEN: ${{ secrets.ADD_TOPCIS_TO_OTHER_REPOS_TOKEN }}
           OWNER: ${{ github.repository_owner }}
+          TEMPLATE_REPO: template-internal
         run: |
           # Get all repos in the organization (public, private, and internal)
           repos=$(gh repo list $OWNER --limit 1000 --json nameWithOwner;)
           
           echo "DEBUG: repo count = $(echo "$repos" | jq 'length')"
           
-          echo "Checking repos for template-internal origin..."
+          # Get template default branch
+          template_default_branch=$(gh api "repos/$OWNER/$TEMPLATE_REPO" --jq '.default_branch')
+          
+          # Get branch protection from template
+          protection=$(gh api "repos/$OWNER/$TEMPLATE_REPO/branches/$template_default_branch/protection" 2>/dev/null || echo "{}")
           
           echo "$repos" | jq -r '.[].nameWithOwner' | while read repo; do
             # Check if repo was created from template-internal
             template=$(gh api "repos/$repo" --jq '.template_repository.name' 2>/dev/null || echo "null")
             
-            if [ "$template" = "template-internal" ]; then
-              echo "Found repo created from template-internal: $repo"
+            if [ "$template" = "$TEMPLATE_REPO" ]; then
+              echo "Found repo created from $TEMPLATE_REPO: $repo"
               
-              # Check if already has 'keep' topic to avoid redundant API calls
+              # -------------------
+              # Add topics
+              # -------------------
               current_topics=$(gh api "repos/$repo/topics" --jq '.names | join(",")' 2>/dev/null || echo "")
               
               if [[ ! "$current_topics" =~ "keep" ]]; then
@@ -49,6 +56,31 @@ jobs:
           EOF
               else
                 echo "Topics already present on $repo"
+              fi
+              
+              # -------------------
+              # Apply branch protection rules if not present
+              # -------------------
+              repo_default_branch=$(gh api "repos/$repo" --jq '.default_branch')
+              
+              existing_protection=$(gh api "repos/$repo/branches/$repo_default_branch/protection" 2>/dev/null || echo "")
+              
+              if [ -n "$protection" ] && [ "$protection" != "{}" ]; then
+                if [ -z "$existing_protection" ] || [ "$existing_protection" = "{}" ]; then
+                  echo "Applying branch protection to $repo/$repo_default_branch"
+                  
+                  gh api \
+                    --method PUT \
+                    -H "Accept: application/vnd.github+json" \
+                    "/repos/$repo/branches/$repo_default_branch/protection" \
+                    --input - <<EOF
+          $protection
+          EOF
+                else
+                  echo "Branch protection already exists on $repo/$repo_default_branch, skipping"
+                fi
+              else
+                echo "No protection found on template branch or failed to fetch"
               fi
             fi
           done
