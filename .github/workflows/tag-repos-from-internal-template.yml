@@ -49,15 +49,16 @@ jobs:
               # Assign ruleset
               # -------------------
               RULESET_NAME="Default branch protection"
+              RULESET_ID=$(gh api /orgs/$OWNER/code-security/rulesets --jq '.[] | select(.name=="Default branch protection") | .id')
 
               echo "Checking if $repo is already in ruleset $RULESET_NAME"
-              existing_repo_ids=$(gh api "/orgs/$OWNER/code-security/rulesets/$RULESET_NAME" --jq '.repository_ids | join(",")')
+              existing_repo_ids=$(gh api "/orgs/$OWNER/code-security/rulesets/$RULESET_ID" --jq '.repository_ids | join(",")')
 
               if [[ ! ",$existing_repo_ids," =~ ",$repo_id," ]]; then
                 echo "Adding $repo to ruleset $RULESET_NAME"
                 # Append repo ID to ruleset
                 new_repo_ids="$existing_repo_ids,$repo_id"
-                gh api --method PATCH -H "Accept: application/vnd.github+json" "/orgs/$OWNER/code-security/rulesets/$RULESET_NAME" --input - <<EOF
+                gh api --method PATCH -H "Accept: application/vnd.github+json" "/orgs/$OWNER/code-security/rulesets/$RULESET_ID" --input - <<EOF
           {"repository_ids": [$new_repo_ids]}
           EOF
               else
