@@ -9,66 +9,46 @@ permissions:
   contents: read
 
 jobs:
-  tag-and-apply-ruleset:
+  tag-repos:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Tag repos and assign ruleset
+      - name: Tag repos created from template-internal
         env:
           GH_TOKEN: ${{ secrets.ADD_TOPCIS_TO_OTHER_REPOS_TOKEN }}
           OWNER: ${{ github.repository_owner }}
-          TEMPLATE_REPO: template-internal
-          RULESET_NAME: Default branch protection
         run: |
-          set -e
-
-          # Get the ruleset ID for "Default branch protection"
-          RULESET_ID=$(gh api /orgs/$OWNER/code-security/rulesets --jq ".[] | select(.name==\"$RULESET_NAME\") | .id")
-          if [ -z "$RULESET_ID" ]; then
-            echo "ERROR: Could not find ruleset '$RULESET_NAME'"
-            exit 1
-          fi
-          echo "Using ruleset ID: $RULESET_ID"
-
-          # Fetch all repos in the organization
-          repos=$(gh repo list $OWNER --limit 1000 --json nameWithOwner,id)
-
-          echo "$repos" | jq -r '.[] | "\(.nameWithOwner) \(.id)"' | while read repo repo_id; do
+          # Get all repos in the organization (public, private, and internal)
+          repos=$(gh repo list $OWNER --limit 1000 --json nameWithOwner;)
+          
+          echo "DEBUG: repo count = $(echo "$repos" | jq 'length')"
+          
+          echo "Checking repos for template-internal origin..."
+          
+          echo "$repos" | jq -r '.[].nameWithOwner' | while read repo; do
             # Check if repo was created from template-internal
             template=$(gh api "repos/$repo" --jq '.template_repository.name' 2>/dev/null || echo "null")
             
-            if [ "$template" = "$TEMPLATE_REPO" ]; then
-              echo "Found repo created from $TEMPLATE_REPO: $repo"
-
-              # -------------------
-              # Add topics
-              # -------------------
+            if [ "$template" = "template-internal" ]; then
+              echo "Found repo created from template-internal: $repo"
+              
+              # Check if already has 'keep' topic to avoid redundant API calls
               current_topics=$(gh api "repos/$repo/topics" --jq '.names | join(",")' 2>/dev/null || echo "")
+              
               if [[ ! "$current_topics" =~ "keep" ]]; then
                 echo "Adding topics to $repo"
-                gh api --method PUT -H "Accept: application/vnd.github+json" "/repos/$repo/topics" --input - <<EOF
+                gh api \
+                  --method PUT \
+                  -H "Accept: application/vnd.github+json" \
+                  "/repos/$repo/topics" \
+                  --input - <<EOF
           {"names": ["keep","internal"]}
           EOF
               else
                 echo "Topics already present on $repo"
-              fi
-
-              # -------------------
-              # Assign ruleset
-              # -------------------
-              echo "Checking if $repo is already in ruleset $RULESET_NAME"
-              existing_repo_ids=$(gh api "/orgs/$OWNER/code-security/rulesets/$RULESET_ID/repositories" --jq '.[].id | tostring' | paste -sd "," -)
-              
-              if [[ ! ",$existing_repo_ids," =~ ",$repo_id," ]]; then
-                echo "Adding $repo to ruleset $RULESET_NAME"
-                gh api --method POST -H "Accept: application/vnd.github+json" "/orgs/$OWNER/code-security/rulesets/$RULESET_ID/repositories" --input - <<EOF
-          {"repository_id": $repo_id}
-          EOF
-              else
-                echo "$repo is already in ruleset $RULESET_NAME, skipping"
               fi
             fi
           done
